@@ -10,34 +10,41 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    Username = Column(String(250))
-    Firstname = Column(String(250))
-    Password = Column(String(250))
+    # Here we define columns for the table person
+    # Notice that each column is also a normal Python instance attribute.
+    user_id = Column(Integer, primary_key=True)
+    user_name = Column(String(80), unique=True, nullable=False)
+    first_name =Column(String(80), nullable=False)
+    last_name =Column(String(80), nullable=False)
+    created_at =Column(String(80))
+    updated_at =Column(String(80))
+    email =Column(String(80),unique=True, nullable=False) 
+
+class Planet(Base):
+    __tablename__ = 'planet'
+    planet_id = Column(Integer, primary_key=True)
+    name = Column(String(200))
+    climate = Column(String(200))
+    population = Column(Integer)
+    orbital_period = Column(Integer)
+    diameter= Column(Integer)
 
 class Character(Base):
-    __tablename__ = "character"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250))
-    gender = Column(String(250))
-    age = Column(Integer)
-    race = Column(String(250))
+    __tablename__ = 'character'
+    character_id = Column(Integer, primary_key=True)
+    name =  Column(String(200))
+    birth_year = Column(Integer)
+    gender = Column(String(200))
+    height = Column(Integer)
+    skin_color = Column(String(200))
+    eye_color = Column(String(200))
 
-class Planets(Base):
-    __tablename__ = "planets"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250))
-    population = Column(Integer)
-    languaje = Column(String(250))
-    
-
-class Favorite(Base):
-    __tablename__ = 'favorite'
-    id = Column(Integer, primary_key=True)
-    username = Column(String(250), ForeignKey("user.username"))
-    favorite_planet = Column(Integer, ForeignKey("planets.name"))
-    favorite_character = Column(Integer, ForeignKey("character.name"))
-   
+class Favorites(Base): 
+    __tablename__ = 'favorites'
+    like_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.user_id'))
+    fav_planet_id = Column(Integer, ForeignKey('planet.planet_id'))
+    fav_character_id = Column(Integer, ForeignKey('character.character_id'))
 
     def to_dict(self):
         return {}
